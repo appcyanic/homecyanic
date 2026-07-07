@@ -362,26 +362,105 @@
   /* utility */
   .center{ text-align:center; margin-left:auto; margin-right:auto; }
 
+  /* ---------- mobile menu ---------- */
+  .menu-toggle{
+    display:none; background:none; border:1px solid var(--border-2);
+    color:var(--text); font-size:18px; cursor:pointer;
+    width:38px; height:38px; border-radius:9px;
+    align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .mobile-menu{
+    display:none; flex-direction:column; gap:4px;
+    background: rgba(6,9,18,.97); border-bottom:1px solid var(--border);
+    padding:12px 0 20px;
+  }
+  .mobile-menu a{
+    display:block; padding:12px 24px; font-size:15px;
+    color:var(--text-muted); transition:color .2s;
+  }
+  .mobile-menu a:hover{ color:var(--text); }
+  .mobile-menu .mobile-ctas{
+    display:flex; gap:10px; padding:14px 24px 0; flex-wrap:wrap;
+  }
+  .mobile-menu.open{ display:flex; }
+
+  /* ---------- tablet 980px ---------- */
   @media (max-width: 980px){
-    .hero-grid, .split, .agent-grid{ grid-template-columns:1fr; }
+    .hero-grid{ grid-template-columns:1fr; gap:48px; }
+    .split{ grid-template-columns:1fr; gap:48px; }
+    .agent-grid{ grid-template-columns:1fr; gap:48px; }
     .feat-grid{ grid-template-columns: repeat(2,1fr); }
     .tech-grid{ grid-template-columns: repeat(2,1fr); }
     .rewards-top{ grid-template-columns: repeat(2,1fr); }
     .footer-grid{ grid-template-columns: 1fr 1fr; }
-    .swap-mock{ margin:0 auto; }
+    .swap-mock{ margin:0 auto; max-width:100%; }
     .nav-links{ display:none; }
+    .nav-cta{ display:none; }
+    .menu-toggle{ display:flex; }
+    .constellation{ max-width:360px; }
+    /* bridge mock order fix on tablet */
+    #bridge .swap-mock{ order:unset !important; }
   }
+
+  /* ---------- mobile 640px ---------- */
   @media (max-width: 640px){
-    .container{ padding:0 20px; }
-    .feat-grid{ grid-template-columns: 1fr; }
-    .tech-grid{ grid-template-columns: 1fr; }
-    .rewards-top{ grid-template-columns: 1fr 1fr; }
-    .oss-box{ grid-template-columns:1fr; padding:32px 24px; }
-    .footer-grid{ grid-template-columns: 1fr 1fr; }
-    section{ padding:72px 0; }
-    .hero{ padding-top:88px; }
-    table.lead-table{ font-size:12px; }
+    .container{ padding:0 16px; }
+    section{ padding:64px 0; }
+    .hero{ padding-top:80px; padding-bottom:40px; }
+    .hero h1{ font-size: clamp(30px, 8vw, 42px); }
+    .hero p.lead{ font-size:15px; }
+    .hero-ctas{ gap:10px; }
+    .hero-ctas .btn{ padding:11px 18px; font-size:14px; }
+    .hero-meta{ gap:14px; font-size:11.5px; }
+
+    /* hide constellation on small mobile, show text only */
+    .constellation{ max-width:280px; }
+    .node{ font-size:10px; padding:6px 9px; border-radius:8px; }
+    .core{ width:72px; height:72px; }
+    .core-quote{ font-size:10.5px; padding:7px 11px; top:calc(50% + 50px); }
+
+    .feat-grid{ grid-template-columns: 1fr; gap:14px; }
+    .tech-grid{ grid-template-columns: 1fr; gap:14px; }
+    .rewards-top{ grid-template-columns: 1fr 1fr; gap:12px; }
+    .tier-card{ padding:18px; }
+
+    .oss-box{ grid-template-columns:1fr; padding:28px 20px; gap:24px; }
+    .code-line{ font-size:11.5px; padding:13px 14px; flex-wrap:wrap; gap:10px; }
+    .code-line #cloneCmd{ word-break:break-all; font-size:11px; }
+
+    .footer-grid{ grid-template-columns: 1fr 1fr; gap:28px; }
+    .footer-bottom{ flex-direction:column; align-items:flex-start; gap:8px; }
+
+    /* table horizontal scroll on mobile */
+    .table-wrap{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    table.lead-table{ font-size:12px; min-width:480px; }
     table.lead-table th, table.lead-table td{ padding:10px 12px; }
+
+    /* swap mock full width */
+    .swap-mock{ padding:20px; max-width:100%; }
+    .swap-tabs-row{ flex-wrap:wrap; gap:8px; }
+    .slip-pill{ margin-left:0; }
+
+    /* section head */
+    .section-head{ margin-bottom:36px; }
+    .section-head h2{ font-size:clamp(24px,6vw,32px); }
+
+    /* chat mock */
+    .chat-mock{ padding:18px; }
+    .bubble{ font-size:13px; }
+
+    /* xp strip */
+    .xp-strip{ gap:10px; }
+    .xp-chip{ padding:8px 14px; font-size:12.5px; }
+  }
+
+  /* ---------- very small 380px ---------- */
+  @media (max-width: 380px){
+    .rewards-top{ grid-template-columns: 1fr; }
+    .hero-ctas{ flex-direction:column; }
+    .hero-ctas .btn{ width:100%; justify-content:center; }
+    .footer-grid{ grid-template-columns: 1fr; }
+    .node-n2, .node-n5{ display:none; }
   }
 </style>
 </head>
@@ -406,7 +485,22 @@
         <a class="btn btn-ghost btn-sm" href="https://github.com/appcyanic/cyanic22" target="_blank" rel="noopener">GitHub</a>
         <a class="btn btn-primary btn-sm" href="https://www.cyanic.app/swap" target="_blank" rel="noopener">Launch App</a>
       </div>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
     </nav>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#features" onclick="closeMobileMenu()">Features</a>
+    <a href="#swap" onclick="closeMobileMenu()">The Swap</a>
+    <a href="#bridge" onclick="closeMobileMenu()">Bridge</a>
+    <a href="#agent" onclick="closeMobileMenu()">AI Agent</a>
+    <a href="#rewards" onclick="closeMobileMenu()">Rewards</a>
+    <a href="#stack" onclick="closeMobileMenu()">Tech Stack</a>
+    <div class="mobile-ctas">
+      <a class="btn btn-ghost btn-sm" href="https://github.com/appcyanic/cyanic22" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn btn-primary btn-sm" href="https://www.cyanic.app/swap" target="_blank" rel="noopener">Launch App</a>
+    </div>
   </div>
 </header>
 
@@ -676,6 +770,7 @@
         </div>
       </div>
 
+      <div class="table-wrap">
       <table class="lead-table">
         <thead>
           <tr><th>Rank</th><th>Trader</th><th>Tier</th><th>Score</th><th>Volume</th><th>Swaps</th></tr>
@@ -688,6 +783,7 @@
           <tr><td class="rank">5</td><td class="addr">0x5c3E…21bb</td><td><span class="tier-badge" style="color:#cd7f32;">Bronze</span></td><td>950</td><td>$378.4K</td><td>19</td></tr>
         </tbody>
       </table>
+      </div><!-- /table-wrap -->
       <div class="table-caption">Sample leaderboard layout — live ranking runs at cyanic.app/leaderboard</div>
     </div>
   </section>
@@ -781,6 +877,23 @@
     </div>
   </div>
 </footer>
+
+<script>
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const closeIcon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>';
+  const openIcon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>';
+
+  menuToggle.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    menuToggle.innerHTML = isOpen ? closeIcon : openIcon;
+  });
+
+  function closeMobileMenu() {
+    mobileMenu.classList.remove('open');
+    menuToggle.innerHTML = openIcon;
+  }
+</script>
 
 </body>
 </html>
